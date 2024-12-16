@@ -18,7 +18,7 @@ namespace Platformer.Mechanics
         public float minHeight = 2f; // Altura mínima de vuelo
         public float lateralSpeed = 3f; // Velocidad lateral
         public Transform player; // Referencia al jugador
-        public float screenWidth = 16f; // Ancho de la pantalla
+        public float maxDistanceFromPlayer = 8f; // Distancia máxima desde el jugador
         public float minChangeDirectionInterval = 1f; // Intervalo mínimo entre cambios de dirección
         public float maxChangeDirectionInterval = 3f; // Intervalo máximo entre cambios de dirección
 
@@ -53,6 +53,14 @@ namespace Platformer.Mechanics
             // Movimiento suave del boss
             transform.position = Vector3.Lerp(transform.position, targetPosition, flySpeed * Time.deltaTime);
 
+            // Limitar la distancia del boss relativa al jugador
+            float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+            if (distanceToPlayer > maxDistanceFromPlayer)
+            {
+                Vector3 directionToPlayer = (player.position - transform.position).normalized;
+                transform.position = player.position - directionToPlayer * maxDistanceFromPlayer;
+            }
+
             // Limitar la altura del boss
             if (transform.position.y > maxHeight)
             {
@@ -61,16 +69,6 @@ namespace Platformer.Mechanics
             else if (transform.position.y < minHeight)
             {
                 transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
-            }
-
-            // Limitar el movimiento lateral del boss dentro de la pantalla
-            if (transform.position.x > screenWidth / 2)
-            {
-                transform.position = new Vector3(screenWidth / 2, transform.position.y, transform.position.z);
-            }
-            else if (transform.position.x < -screenWidth / 2)
-            {
-                transform.position = new Vector3(-screenWidth / 2, transform.position.y, transform.position.z);
             }
         }
 
@@ -95,7 +93,7 @@ namespace Platformer.Mechanics
             while (health > 0)
             {
                 // Cambiar la dirección de movimiento cada cierto tiempo
-                float directionX = Random.Range(-screenWidth / 2, screenWidth / 2);
+                float directionX = Random.Range(player.position.x - maxDistanceFromPlayer, player.position.x + maxDistanceFromPlayer);
                 float directionY = Random.Range(minHeight, maxHeight);
                 targetPosition = new Vector3(directionX, directionY, 0);
 

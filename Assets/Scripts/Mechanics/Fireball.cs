@@ -14,6 +14,5 @@ namespace Platformer.Mechanics
             }
             Destroy(gameObject);
         }
-        
     }
 }
