@@ -10,11 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7608638489952311087}
   - component: {fileID: 8659884674052286902}
-  - component: {fileID: 8321273002818664794}
   - component: {fileID: 5517649678316896475}
   - component: {fileID: 2611390949318819023}
-  - component: {fileID: 619085874497138507}
-  m_Layer: 5
+  - component: {fileID: -898002786807233549}
+  m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,18 +87,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8321273002818664794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2275120091934206898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3995edb929bee446b2801cb68389ac8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &5517649678316896475
 Rigidbody2D:
   serializedVersion: 4
@@ -181,7 +168,7 @@ PolygonCollider2D:
       - {x: 0.19999999, y: -0.04}
       - {x: 0.19999999, y: 0}
   m_UseDelaunayMesh: 0
---- !u!114 &619085874497138507
+--- !u!114 &-898002786807233549
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,6 +177,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2275120091934206898}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9473387ae50744bf946308793bd64e9, type: 3}
+  m_Script: {fileID: 11500000, guid: d3995edb929bee446b2801cb68389ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathYLevel: -10
