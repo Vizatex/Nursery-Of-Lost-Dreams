@@ -45,8 +45,8 @@ GameObject:
   - component: {fileID: 3112150009390299514}
   - component: {fileID: 5785243654239855104}
   - component: {fileID: 2977612190986346762}
-  - component: {fileID: 282015017924971976}
   - component: {fileID: -3501768751462070340}
+  - component: {fileID: 2438830557682803596}
   m_Layer: 13
   m_Name: Boss
   m_TagString: Player
@@ -64,7 +64,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7.63, y: 0.23, z: 1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5256494199166796343}
@@ -111,7 +111,7 @@ SpriteRenderer:
   m_SortingLayerID: 1907945055
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 1756760090, guid: c0c4f17bd48092b44a7c3cafc236754e, type: 3}
+  m_Sprite: {fileID: -219900642, guid: 163dd483add869e44a0eb2925c093c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -211,7 +211,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 0.75333166
+  MinDistance: 0.53646994
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -287,7 +287,35 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!60 &282015017924971976
+--- !u!114 &-3501768751462070340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3463135249351892648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb356d4497cdfd42b67b3c9acf51e78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 15
+  flySpeed: 2
+  fireballSpeed: 3
+  fireballPrefab: {fileID: 2275120091934206898, guid: 812361cef24ca9c4aa259dd1a93ca14b,
+    type: 3}
+  fireballSpawnPoint: {fileID: 5256494199166796343}
+  minAttackInterval: 4
+  maxAttackInterval: 5
+  restDuration: 1
+  maxHeight: 4
+  minHeight: 1
+  lateralSpeed: 1
+  player: {fileID: 0}
+  maxDistanceFromPlayer: 8
+  minChangeDirectionInterval: 1
+  maxChangeDirectionInterval: 3
+--- !u!60 &2438830557682803596
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,7 +351,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.81, y: 0.71}
+    oldSize: {x: 0.48, y: 0.48}
     newSize: {x: 1.28, y: 1.26}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -331,57 +359,14 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.33499998, y: -0.065}
-      - {x: 0.255, y: -0.085}
-      - {x: 0.155, y: -0.195}
-      - {x: 0.095, y: -0.175}
-      - {x: 0.36499998, y: 0.035}
-      - {x: 0.405, y: 0.044999998}
-      - {x: 0.405, y: 0.13499999}
-      - {x: 0.375, y: 0.175}
-      - {x: 0.114999995, y: 0.265}
-      - {x: 0.044999998, y: 0.305}
-      - {x: -0.005, y: 0.305}
-      - {x: -0.055, y: 0.145}
-      - {x: -0.155, y: 0.16499999}
-      - {x: -0.185, y: 0.305}
-      - {x: -0.265, y: 0.305}
-      - {x: -0.405, y: 0.155}
-      - {x: -0.405, y: 0.015}
-      - {x: -0.295, y: -0.074999996}
-      - {x: -0.325, y: -0.205}
-      - {x: -0.275, y: -0.315}
-      - {x: -0.175, y: -0.325}
-      - {x: 0.195, y: -0.325}
-      - {x: 0.255, y: -0.305}
-      - {x: 0.36499998, y: -0.205}
-      - {x: 0.355, y: -0.105}
+    - - {x: 0.09841633, y: 0.18313782}
+      - {x: -0.01640283, y: 0.11253659}
+      - {x: -0.09535664, y: 0.10665686}
+      - {x: -0.20326492, y: 0.015483819}
+      - {x: -0.20431077, y: -0.058431126}
+      - {x: -0.18274182, y: -0.1028055}
+      - {x: -0.07424727, y: -0.15437436}
+      - {x: 0.13332842, y: -0.1653568}
+      - {x: 0.24993648, y: -0.08130005}
+      - {x: 0.23424728, y: 0.09391495}
   m_UseDelaunayMesh: 0
---- !u!114 &-3501768751462070340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3463135249351892648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb356d4497cdfd42b67b3c9acf51e78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 15
-  flySpeed: 2
-  fireballSpeed: 3
-  fireballPrefab: {fileID: 2275120091934206898, guid: 812361cef24ca9c4aa259dd1a93ca14b,
-    type: 3}
-  fireballSpawnPoint: {fileID: 5256494199166796343}
-  minAttackInterval: 4
-  maxAttackInterval: 5
-  restDuration: 1
-  maxHeight: 5
-  minHeight: 3
-  lateralSpeed: 1
-  player: {fileID: 0}
-  maxDistanceFromPlayer: 8
-  minChangeDirectionInterval: 1
-  maxChangeDirectionInterval: 3
