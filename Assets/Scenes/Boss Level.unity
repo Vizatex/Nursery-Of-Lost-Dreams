@@ -143709,6 +143709,21 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1213308513}
+    - target: {fileID: -3501768751462070340, guid: 81741a3b457d1b04e8ca1e535f556e34,
+        type: 3}
+      propertyPath: maxAttackInterval
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -3501768751462070340, guid: 81741a3b457d1b04e8ca1e535f556e34,
+        type: 3}
+      propertyPath: minAttackInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2438830557682803596, guid: 81741a3b457d1b04e8ca1e535f556e34,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3463135249351892648, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_Name
@@ -143727,12 +143742,12 @@ PrefabInstance:
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.82
+      value: 6.65
       objectReference: {fileID: 0}
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.41
+      value: 2.49
       objectReference: {fileID: 0}
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
@@ -149768,7 +149783,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 0.21328951, g: 0, b: 0.49056602, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Origin: {x: -29, y: -14, z: 0}
   m_Size: {x: 436, y: 19, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -150006,7 +150021,7 @@ Transform:
   m_GameObject: {fileID: 1796383842}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25.01, y: 3.91, z: -0.008724004}
+  m_LocalPosition: {x: 25, y: 3.91, z: -0.008724004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
