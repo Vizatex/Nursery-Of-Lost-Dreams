@@ -143724,6 +143724,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2977612190986346762, guid: 81741a3b457d1b04e8ca1e535f556e34,
+        type: 3}
+      propertyPath: MinDistance
+      value: 1.0588574
+      objectReference: {fileID: 0}
     - target: {fileID: 3463135249351892648, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_Name
@@ -143732,12 +143737,12 @@ PrefabInstance:
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8458788359277874684, guid: 81741a3b457d1b04e8ca1e535f556e34,
         type: 3}
