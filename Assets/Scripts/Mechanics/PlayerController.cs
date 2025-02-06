@@ -34,8 +34,15 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        // Color actual del jugador (se actualizará al cambiar el skin)
         public Color currentColor;
-        
+
+        // NUEVAS VARIABLES PARA LOS SKINS 
+        // Array de skins (cada uno con sprite y color)
+        public CharacterSkin[] availableSkins;
+        // Índice para llevar la cuenta del skin actual
+        private int currentSkinIndex = 0;
+        // 
 
         void Awake()
         {
@@ -45,17 +52,31 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             attackCollider.SetActive(false);
-            currentColor = spriteRenderer.color;
+
+            // Si se definieron skins, inicializa con el primero
+            if (availableSkins != null && availableSkins.Length > 0)
+            {
+                currentSkinIndex = 0;
+                UpdateSkin();
+            }
+            else
+            {
+                // Si no hay skins definidos, se usa el sprite y color actuales
+                currentColor = spriteRenderer.color;
+            }
         }
 
         protected override void Update()
         {
-
+            // Al presionar "Fire2", se cambia al siguiente skin (sprite y color)
             if (Input.GetButtonDown("Fire2"))
             {
-
+                if (availableSkins != null && availableSkins.Length > 0)
+                {
+                    currentSkinIndex = (currentSkinIndex + 1) % availableSkins.Length;
+                    UpdateSkin();
+                }
             }
-
 
             if (controlEnabled)
             {
@@ -84,6 +105,16 @@ namespace Platformer.Mechanics
             }
             UpdateJumpState();
             base.Update();
+        }
+
+        // Actualiza el sprite y color del personaje según el skin seleccionado.
+        void UpdateSkin()
+        {
+            CharacterSkin skin = availableSkins[currentSkinIndex];
+            // Actualiza el sprite del SpriteRenderer (el Animator usará este sprite en sus animaciones)
+            spriteRenderer.sprite = skin.sprite;
+            // Actualiza el color
+            ChangeColor(skin.color);
         }
 
         void UpdateJumpState()
@@ -143,6 +174,7 @@ namespace Platformer.Mechanics
             targetVelocity = move * maxSpeed;
         }
 
+        // Método que cambia el color del jugador (actualiza la variable y el SpriteRenderer)
         public void ChangeColor(Color newColor)
         {
             currentColor = newColor;

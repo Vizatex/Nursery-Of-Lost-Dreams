@@ -7,97 +7,131 @@ using UnityEngine;
 
 public class Platforms : MonoBehaviour
 {
-    // Color asignado a la plataforma
+    // Color asignado a la plataforma.
     public Color platformColor;
+
+    // Arreglo de colores disponibles para asignar.
+    // Desde el Inspector podrás asignar los colores que desees.
+    public Color[] availableColors;
 
     private Rigidbody2D rb;
     private bool isStable = true;
     private Vector3 initialPosition;
 
-    public Color[] availableColors;
-    public Platforms[] platforms;
+    // Arreglo estático que contiene todas las instancias de Platforms en la escena.
+    public static Platforms[] allPlatforms;
 
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         if (rb != null)
         {
-            rb.isKinematic = true; // Se mantiene estable hasta que se active la caída
+            // La plataforma se mantiene estable (sin ser afectada por la física) hasta que se active la caída.
+            rb.isKinematic = true;
         }
-        // Guarda la posición inicial de la plataforma
+        // Guarda la posición inicial para poder reiniciarla.
         initialPosition = transform.position;
-
-        platforms = FindObjectsOfType<Platforms>();
-
-
-        Color[] availableColors = new Color[2];
-       
-
-
     }
 
-    // Verifica si el color del jugador coincide con el de la plataforma
+    void Start()
+    {
+        // Obtiene todas las plataformas de la escena.
+        allPlatforms = FindObjectsOfType<Platforms>();
+
+        // Si hay colores disponibles, asigna aleatoriamente uno al inicio.
+        if (availableColors != null && availableColors.Length > 0)
+        {
+            int randomIndex = Random.Range(0, availableColors.Length);
+            platformColor = availableColors[randomIndex];
+            UpdateSpriteColor();
+        }
+    }
+
+    // Actualiza el color del SpriteRenderer, sin modificar el sprite.
+    void UpdateSpriteColor()
+    {
+        SpriteRenderer sr = GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.color = platformColor;
+        }
+    }
+
+    // Método que debe ser llamado al detectar que el jugador está sobre la plataforma.
+    // Si el color del jugador coincide con el color de la plataforma, la plataforma se mantiene estable;
+    // de lo contrario, la plataforma se "desactiva" (cae).
     public void CheckPlayerColor(PlayerController player)
     {
-        if (player.currentColor == platformColor)
+        if (ColorUtility.ToHtmlStringRGB(player.currentColor) == ColorUtility.ToHtmlStringRGB(platformColor))
         {
             StayStable();
         }
         else
         {
-            Fall();
+            DisableCollider();
         }
     }
 
     private void StayStable()
     {
-        Debug.Log("Plataforma estable. ¡Buen salto!");
-        // Aquí podrías agregar efectos visuales o de sonido
+
     }
 
-    private void Fall()
-    {
-        if (isStable)
-        {
-            isStable = false;
-            if (rb != null)
-            {
-                rb.isKinematic = false; // Permite que la física haga que la plataforma caiga
-            }
-            Debug.Log("La plataforma se cae.");
-        }
-    }
 
-    // Reinicia la plataforma a su estado inicial y asigna un nuevo color
+    // Reinicia la plataforma a su estado inicial y asigna un nuevo color (tomado aleatoriamente de availableColors).
+    // Solo se actualiza el color; el sprite se mantiene.
     public void ResetPlatform(Color newColor)
     {
-        // Restablece posición y estado
         transform.position = initialPosition;
-        isStable = true;
-        if (rb != null)
-        {
-            rb.isKinematic = true;
-            rb.velocity = Vector2.zero;
-        }
-        // Asigna el nuevo color (proporcionado por el LevelManager)
         platformColor = newColor;
 
-        // Actualiza visualmente el color, si la plataforma cuenta con SpriteRenderer
+        // Restablecer color visual
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (sr != null)
         {
             sr.color = newColor;
         }
 
-     
-    }
-
-    void playerDeath(PlayerController player)
-    {
-        foreach (Platforms platform in platforms)
+        // Reactivar el Collider2D
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
         {
-            Color randomColor = availableColors[Random.Range(0, availableColors.Length)];
-            platform.ResetPlatform(randomColor);
+            col.enabled = true;
         }
     }
+
+    private void DisableCollider()
+    {
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = false;
+            StartCoroutine(EnableColliderAfterDelay(2f)); // Reactiva después de 2 segundos
+        }
+       
+    }
+
+    private IEnumerator EnableColliderAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Collider2D col = GetComponent<Collider2D>();
+        if (col != null)
+        {
+            col.enabled = true;
+        }
+       
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        PlayerController player = collision.gameObject.GetComponent<PlayerController>();
+        if (player != null)
+        {
+            CheckPlayerColor(player);
+        }
+    }
+
+
+
 }
+
