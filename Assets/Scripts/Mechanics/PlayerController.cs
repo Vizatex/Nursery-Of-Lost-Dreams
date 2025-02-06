@@ -34,6 +34,9 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        public Color currentColor;
+        
+
         void Awake()
         {
             health = GetComponent<Health>();
@@ -42,10 +45,18 @@ namespace Platformer.Mechanics
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
             attackCollider.SetActive(false);
+            currentColor = spriteRenderer.color;
         }
 
         protected override void Update()
         {
+
+            if (Input.GetButtonDown("Fire2"))
+            {
+
+            }
+
+
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");
@@ -130,6 +141,12 @@ namespace Platformer.Mechanics
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
             targetVelocity = move * maxSpeed;
+        }
+
+        public void ChangeColor(Color newColor)
+        {
+            currentColor = newColor;
+            spriteRenderer.color = newColor;
         }
 
         public enum JumpState
