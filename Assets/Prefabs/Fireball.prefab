@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5517649678316896475}
   - component: {fileID: 2611390949318819023}
   - component: {fileID: -898002786807233549}
+  - component: {fileID: -5459311106810809279}
   m_Layer: 0
   m_Name: Fireball
   m_TagString: Untagged
@@ -180,3 +181,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3995edb929bee446b2801cb68389ac8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &-5459311106810809279
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2275120091934206898}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0a6d038a730cf1443a832415eb45f44b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
