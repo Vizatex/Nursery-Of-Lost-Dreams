@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4154ae14ca57fa044aa81be6db7927a0
+guid: c29bcef72e8f8244fbaba96dda2e1a45
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,13 +97,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: projectile_0
+      name: Portal-Sheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -111,20 +111,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 34326d59c8f26664d997c4fc86ac6deb
-      internalID: 307738018
+      spriteID: e0fd92b0b46e4b14ea02e964628761ba
+      internalID: -1687323347
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_1
+      name: Portal-Sheet_1
       rect:
         serializedVersion: 2
-        x: 31
+        x: 100
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -132,20 +132,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2f658819ac2215744810165a52d554d7
-      internalID: 767347473
+      spriteID: 625a011e7053b3645a9acc174e9fb2b0
+      internalID: 2093575124
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_2
+      name: Portal-Sheet_2
       rect:
         serializedVersion: 2
-        x: 62
+        x: 200
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -153,20 +153,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 504229a873ac3094594ab77c83007a2c
-      internalID: -1380068777
+      spriteID: 03d2ec53ff5981846b7f20b4d51a15c3
+      internalID: 455917612
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_3
+      name: Portal-Sheet_3
       rect:
         serializedVersion: 2
-        x: 93
+        x: 300
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -174,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: df85dd7f20db12b44b7b81088f96814d
-      internalID: 888016855
+      spriteID: 13ec39f113c938942999aed2940093dc
+      internalID: -909231297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_4
+      name: Portal-Sheet_4
       rect:
         serializedVersion: 2
-        x: 124
+        x: 400
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,20 +195,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 50c897de0fe591145a0d38e2ae41b58e
-      internalID: -717490030
+      spriteID: 86da9a83bcbdc7e4199e4e32717a08cb
+      internalID: 807526441
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_5
+      name: Portal-Sheet_5
       rect:
         serializedVersion: 2
-        x: 155
+        x: 500
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,20 +216,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 03b564ee0409fc64798a0870dd92ce83
-      internalID: -1465374490
+      spriteID: 7e51ea2c560ccad4dacccbbdc4a062d5
+      internalID: -949518429
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_6
+      name: Portal-Sheet_6
       rect:
         serializedVersion: 2
-        x: 186
+        x: 600
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -237,20 +237,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 424637562de876442ab5a71bcc932935
-      internalID: 1099936560
+      spriteID: 216c22fe7c87e3c4489d023d595f015c
+      internalID: -657521668
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_7
+      name: Portal-Sheet_7
       rect:
         serializedVersion: 2
-        x: 217
+        x: 700
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -258,20 +258,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 69d1450a3cc41c542b3eabca9be61edb
-      internalID: 1896458038
+      spriteID: d510ecd0bee9aba44b332166ea865bd9
+      internalID: -1190991576
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: projectile_8
+      name: Portal-Sheet_8
       rect:
         serializedVersion: 2
-        x: 248
+        x: 800
         y: 0
-        width: 31
-        height: 30
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -279,71 +279,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c3271f009e0503b46ae2e2de0b4c7013
-      internalID: -1111468565
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: projectile_9
-      rect:
-        serializedVersion: 2
-        x: 279
-        y: 0
-        width: 31
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 36466bd79dbeb534993f8f17931b64e3
-      internalID: 1705459306
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: projectile_10
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 0
-        width: 31
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4e5cff97e9b292c4f97c19fb934a1ba5
-      internalID: -1838188608
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: projectile_11
-      rect:
-        serializedVersion: 2
-        x: 341
-        y: 0
-        width: 31
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 849cf0239ce25c34d86e9db3c7b70426
-      internalID: -672253412
+      spriteID: 291838ee3e651634487e16e802fbb20a
+      internalID: 907838621
       vertices: []
       indices: 
       edges: []
@@ -359,18 +296,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      projectile_0: 307738018
-      projectile_1: 767347473
-      projectile_10: -1838188608
-      projectile_11: -672253412
-      projectile_2: -1380068777
-      projectile_3: 888016855
-      projectile_4: -717490030
-      projectile_5: -1465374490
-      projectile_6: 1099936560
-      projectile_7: 1896458038
-      projectile_8: -1111468565
-      projectile_9: 1705459306
+      Portal-Sheet_0: -1687323347
+      Portal-Sheet_1: 2093575124
+      Portal-Sheet_2: 455917612
+      Portal-Sheet_3: -909231297
+      Portal-Sheet_4: 807526441
+      Portal-Sheet_5: -949518429
+      Portal-Sheet_6: -657521668
+      Portal-Sheet_7: -1190991576
+      Portal-Sheet_8: 907838621
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
