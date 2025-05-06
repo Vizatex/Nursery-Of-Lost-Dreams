@@ -14,8 +14,21 @@ namespace Platformer.Mechanics
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
 
+        [Header("Movement Settings")]
         public float maxSpeed = 7;
-        public float jumpTakeOffSpeed = 7;
+        public float jumpTakeOffSpeed = 12;
+        [Tooltip("Multiplier applied to horizontal speed while airborne.")]
+        public float airControlFactor = 0.5f;
+
+        [Header("Jump Physics Settings")]
+        public bool enableCustomGravity = false;
+        public float fallGravityMultiplier = 1.0f;
+        public float lowJumpGravityMultiplier = 1.0f;
+
+        [Header("Dash Settings")]
+        public float dashSpeed = 15f;
+        public float dashDuration = 0.2f;
+        public float dashCooldown = 5f;
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
@@ -34,15 +47,16 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
-        // Color actual del jugador (se actualizará al cambiar el skin)
         public Color currentColor;
-
-        // NUEVAS VARIABLES PARA LOS SKINS 
-        // Array de skins (cada uno con sprite y color)
         public CharacterSkin[] availableSkins;
-        // Índice para llevar la cuenta del skin actual
         private int currentSkinIndex = 0;
-        // 
+
+        private bool isDashing;
+        private float dashTime;
+        private float dashCooldownTimer;
+
+        private int jumpCount = 0;
+        public int maxJumpCount = 2;
 
         void Awake()
         {
@@ -53,7 +67,6 @@ namespace Platformer.Mechanics
             animator = GetComponent<Animator>();
             attackCollider.SetActive(false);
 
-            // Si se definieron skins, inicializa con el primero
             if (availableSkins != null && availableSkins.Length > 0)
             {
                 currentSkinIndex = 0;
@@ -61,14 +74,16 @@ namespace Platformer.Mechanics
             }
             else
             {
-                // Si no hay skins definidos, se usa el sprite y color actuales
                 currentColor = spriteRenderer.color;
             }
+
+            isDashing = false;
+            dashTime = 0f;
+            dashCooldownTimer = 0f;
         }
 
         protected override void Update()
         {
-            // Al presionar "Fire2", se cambia al siguiente skin (sprite y color)
             if (Input.GetButtonDown("Fire2"))
             {
                 if (availableSkins != null && availableSkins.Length > 0)
@@ -81,8 +96,12 @@ namespace Platformer.Mechanics
             if (controlEnabled)
             {
                 move.x = Input.GetAxis("Horizontal");
-                if (jumpState == JumpState.Grounded && Input.GetButtonDown("Jump"))
+
+                if ((jumpState == JumpState.Grounded || jumpCount < maxJumpCount) && Input.GetButtonDown("Jump"))
+                {
                     jumpState = JumpState.PrepareToJump;
+                    jumpCount++;
+                }
                 else if (Input.GetButtonUp("Jump"))
                 {
                     stopJump = true;
@@ -98,22 +117,38 @@ namespace Platformer.Mechanics
                 {
                     attackCollider.SetActive(false);
                 }
+
+                dashCooldownTimer -= Time.deltaTime;
+
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0f)
+                {
+                    isDashing = true;
+                    dashTime = dashDuration;
+                    dashCooldownTimer = dashCooldown;
+                }
+
+                if (isDashing)
+                {
+                    dashTime -= Time.deltaTime;
+                    if (dashTime <= 0f)
+                    {
+                        isDashing = false;
+                    }
+                }
             }
             else
             {
                 move.x = 0;
             }
+
             UpdateJumpState();
             base.Update();
         }
 
-        // Actualiza el sprite y color del personaje según el skin seleccionado.
         void UpdateSkin()
         {
             CharacterSkin skin = availableSkins[currentSkinIndex];
-            // Actualiza el sprite del SpriteRenderer (el Animator usará este sprite en sus animaciones)
             spriteRenderer.sprite = skin.sprite;
-            // Actualiza el color
             ChangeColor(skin.color);
         }
 
@@ -139,6 +174,7 @@ namespace Platformer.Mechanics
                     {
                         Schedule<PlayerLanded>().player = this;
                         jumpState = JumpState.Landed;
+                        jumpCount = 0;
                     }
                     break;
                 case JumpState.Landed:
@@ -149,7 +185,7 @@ namespace Platformer.Mechanics
 
         protected override void ComputeVelocity()
         {
-            if (jump && IsGrounded)
+            if (jump && (IsGrounded || jumpCount <= maxJumpCount))
             {
                 velocity.y = jumpTakeOffSpeed * model.jumpModifier;
                 jump = false;
@@ -163,6 +199,33 @@ namespace Platformer.Mechanics
                 }
             }
 
+            if (enableCustomGravity)
+            {
+                if (velocity.y < 0)
+                {
+                    velocity.y += Physics2D.gravity.y * (fallGravityMultiplier - 1) * Time.deltaTime;
+                }
+                else if (velocity.y > 0 && !Input.GetButton("Jump"))
+                {
+                    velocity.y += Physics2D.gravity.y * (lowJumpGravityMultiplier - 1) * Time.deltaTime;
+                }
+            }
+
+            float effectiveSpeed = maxSpeed;
+            if (!IsGrounded && !isDashing)
+            {
+                effectiveSpeed *= airControlFactor;
+            }
+
+            if (isDashing)
+            {
+                targetVelocity = new Vector2(move.x * dashSpeed, velocity.y);
+            }
+            else
+            {
+                targetVelocity = move * effectiveSpeed;
+            }
+
             if (move.x > 0.01f)
                 spriteRenderer.flipX = false;
             else if (move.x < -0.01f)
@@ -170,11 +233,8 @@ namespace Platformer.Mechanics
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
-
-            targetVelocity = move * maxSpeed;
         }
 
-        // Método que cambia el color del jugador (actualiza la variable y el SpriteRenderer)
         public void ChangeColor(Color newColor)
         {
             currentColor = newColor;
