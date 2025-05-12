@@ -36,26 +36,23 @@ namespace Platformer.Mechanics
         public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
-
         bool jump;
         Vector2 move;
         SpriteRenderer spriteRenderer;
         internal Animator animator;
         readonly PlatformerModel model = Simulation.GetModel<PlatformerModel>();
-
         public GameObject attackCollider;
-
         public Bounds Bounds => collider2d.bounds;
-
         public Color currentColor;
         public CharacterSkin[] availableSkins;
         private int currentSkinIndex = 0;
-
         private bool isDashing;
         private float dashTime;
         private float dashCooldownTimer;
 
+        // Restored variables
         private int jumpCount = 0;
+        private bool playedDoubleJumpAnim = false;
         public int maxJumpCount = 2;
 
         void Awake()
@@ -72,6 +69,7 @@ namespace Platformer.Mechanics
                 currentSkinIndex = 0;
                 UpdateSkin();
             }
+
             else
             {
                 currentColor = spriteRenderer.color;
@@ -97,139 +95,44 @@ namespace Platformer.Mechanics
             {
                 move.x = Input.GetAxis("Horizontal");
 
-                if ((jumpState == JumpState.Grounded || jumpCount < maxJumpCount) && Input.GetButtonDown("Jump"))
-                {
-                    jumpState = JumpState.PrepareToJump;
-                    jumpCount++;
-                }
-                else if (Input.GetButtonUp("Jump"))
-                {
-                    stopJump = true;
-                    Schedule<PlayerStopJump>().player = this;
-                }
+                // Jump logic
+                if ((jumpState == JumpState.Grounded || jumpCount < maxJumpCount) && Input.GetButtonDown("Jump")) { jumpState = JumpState.PrepareToJump; jumpCount++; }
 
-                if (Input.GetButtonDown("Fire1"))
-                {
-                    animator.SetTrigger("attack");
-                    attackCollider.SetActive(true);
-                }
-                else if (Input.GetButtonUp("Fire1"))
-                {
-                    attackCollider.SetActive(false);
-                }
+                else if (Input.GetButtonUp("Jump")) { stopJump = true; Schedule<PlayerStopJump>().player = this; }
 
+                // Attack logic
+                if (Input.GetButtonDown("Fire1")) { animator.SetTrigger("attack"); attackCollider.SetActive(true); }
+
+                else if (Input.GetButtonUp("Fire1")) { attackCollider.SetActive(false); }
+
+                // Dash logic
                 dashCooldownTimer -= Time.deltaTime;
 
-                if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0f)
-                {
-                    isDashing = true;
-                    dashTime = dashDuration;
-                    dashCooldownTimer = dashCooldown;
-                }
+                if (Input.GetKeyDown(KeyCode.LeftShift) && !isDashing && dashCooldownTimer <= 0f) { isDashing = true; animator.SetTrigger("dash"); dashTime = dashDuration; dashCooldownTimer = dashCooldown; }
 
                 if (isDashing)
                 {
                     dashTime -= Time.deltaTime;
-                    if (dashTime <= 0f)
-                    {
-                        isDashing = false;
-                    }
+
+                    if (dashTime <= 0f) { isDashing = false; }
                 }
             }
-            else
-            {
-                move.x = 0;
-            }
 
-            UpdateJumpState();
-            base.Update();
+            else { move.x = 0; }
+            UpdateJumpState(); base.Update();
         }
 
-        void UpdateSkin()
-        {
-            CharacterSkin skin = availableSkins[currentSkinIndex];
-            spriteRenderer.sprite = skin.sprite;
-            ChangeColor(skin.color);
-        }
+        void UpdateSkin() { CharacterSkin skin = availableSkins[currentSkinIndex]; spriteRenderer.sprite = skin.sprite; ChangeColor(skin.color); }
 
-        void UpdateJumpState()
-        {
-            jump = false;
-            switch (jumpState)
-            {
-                case JumpState.PrepareToJump:
-                    jumpState = JumpState.Jumping;
-                    jump = true;
-                    stopJump = false;
-                    break;
-                case JumpState.Jumping:
-                    if (!IsGrounded)
-                    {
-                        Schedule<PlayerJumped>().player = this;
-                        jumpState = JumpState.InFlight;
-                    }
-                    break;
-                case JumpState.InFlight:
-                    if (IsGrounded)
-                    {
-                        Schedule<PlayerLanded>().player = this;
-                        jumpState = JumpState.Landed;
-                        jumpCount = 0;
-                    }
-                    break;
-                case JumpState.Landed:
-                    jumpState = JumpState.Grounded;
-                    break;
-            }
-        }
-
+        void UpdateJumpState() { jump = false; switch (jumpState) { case JumpState.PrepareToJump: jumpState = JumpState.Jumping; jump = true; stopJump = false; break; case JumpState.Jumping: if (!IsGrounded) { Schedule<PlayerJumped>().player = this; jumpState = JumpState.InFlight; } break; case JumpState.InFlight: if (IsGrounded) { Schedule<PlayerLanded>().player = this; jumpState = JumpState.Landed; jumpCount = 0; playedDoubleJumpAnim = false; } break; case JumpState.Landed: jumpState = JumpState.Grounded; break; } }
         protected override void ComputeVelocity()
         {
-            if (jump && (IsGrounded || jumpCount <= maxJumpCount))
-            {
-                velocity.y = jumpTakeOffSpeed * model.jumpModifier;
-                jump = false;
-            }
-            else if (stopJump)
-            {
-                stopJump = false;
-                if (velocity.y > 0)
-                {
-                    velocity.y = velocity.y * model.jumpDeceleration;
-                }
-            }
+            if (jump && (IsGrounded || jumpCount <= maxJumpCount)) { velocity.y = jumpTakeOffSpeed * model.jumpModifier; if (jumpCount == 2 && !playedDoubleJumpAnim) { animator.SetTrigger("doubleJump"); playedDoubleJumpAnim = true; } jump = false; } else if (stopJump) { stopJump = false; if (velocity.y > 0) { velocity.y = velocity.y * model.jumpDeceleration; } }
+            if (enableCustomGravity) { if (velocity.y < 0) { velocity.y += Physics2D.gravity.y * (fallGravityMultiplier - 1) * Time.deltaTime; } else if (velocity.y > 0 && !Input.GetButton("Jump")) { velocity.y += Physics2D.gravity.y * (lowJumpGravityMultiplier - 1) * Time.deltaTime; } }
+            float effectiveSpeed = maxSpeed; if (!IsGrounded && !isDashing) { effectiveSpeed *= airControlFactor; }
+            targetVelocity = isDashing ? new Vector2(move.x * dashSpeed, velocity.y) : move * effectiveSpeed;
 
-            if (enableCustomGravity)
-            {
-                if (velocity.y < 0)
-                {
-                    velocity.y += Physics2D.gravity.y * (fallGravityMultiplier - 1) * Time.deltaTime;
-                }
-                else if (velocity.y > 0 && !Input.GetButton("Jump"))
-                {
-                    velocity.y += Physics2D.gravity.y * (lowJumpGravityMultiplier - 1) * Time.deltaTime;
-                }
-            }
-
-            float effectiveSpeed = maxSpeed;
-            if (!IsGrounded && !isDashing)
-            {
-                effectiveSpeed *= airControlFactor;
-            }
-
-            if (isDashing)
-            {
-                targetVelocity = new Vector2(move.x * dashSpeed, velocity.y);
-            }
-            else
-            {
-                targetVelocity = move * effectiveSpeed;
-            }
-
-            if (move.x > 0.01f)
-                spriteRenderer.flipX = false;
-            else if (move.x < -0.01f)
-                spriteRenderer.flipX = true;
+            spriteRenderer.flipX = move.x > 0.01f ? false : move.x < -0.01f ? true : spriteRenderer.flipX;
 
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);

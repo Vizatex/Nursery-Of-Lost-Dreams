@@ -70,6 +70,9 @@ namespace Platformer.Mechanics
             {
                 transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
             }
+
+            // Llamar a la animación de Idle cuando el boss se está moviendo
+            animationController.PlayAnimation("Boss-Idle");
         }
 
         void LookAtPlayer()
@@ -128,6 +131,9 @@ namespace Platformer.Mechanics
             Vector2 fireballDirection = (player.position - fireballSpawnPoint.position).normalized;
             fireball.GetComponent<Rigidbody2D>().velocity = fireballDirection * fireballSpeed;
             fireball.transform.rotation = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(fireballDirection.y, fireballDirection.x) * Mathf.Rad2Deg));
+
+            // Llamar a la animación de ataque cuando se dispara una bola de fuego
+            animationController.PlayAnimation("Boss-Attack");
         }
 
         public void TakeDamage(int damage)
